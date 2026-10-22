@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 // ============================================================
 // MongoDB Connection
 // ============================================================
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/taskmanager';
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB - taskmanager database'))
@@ -61,6 +61,14 @@ app.use((req, res, next) => {
 // ============================================================
 // API Routes
 // ============================================================
+
+app.get('/api/health', (req, res) => {
+  const isDatabaseConnected = mongoose.connection.readyState === 1;
+  res.status(isDatabaseConnected ? 200 : 503).json({
+    status: isDatabaseConnected ? 'ok' : 'unavailable',
+    database: isDatabaseConnected ? 'connected' : 'disconnected'
+  });
+});
 
 // Public: auth (register/login)
 app.use('/api/auth', authRoutes);

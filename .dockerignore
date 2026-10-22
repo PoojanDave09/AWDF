@@ -1,0 +1,14 @@
+node_modules
+**/node_modules
+dist
+dist-ssr
+**/dist
+.git
+.gitignore
+.env
+.env.*
+**/.env
+**/.env.*
+*.log
+.vscode
+.idea
